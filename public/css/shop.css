@@ -1,0 +1,51 @@
+.shop-card {
+    background: #fff;
+    border-radius: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* card height flexible rahe */
+    box-sizing: border-box;
+}
+
+.shop-card img {
+    width: 100%;
+    height: 520px; /* original height */
+    object-fit: cover;
+    flex-shrink: 0; /* shrink nahi hona chahiye */
+    transition: transform 0.3s ease; /* hover zoom optional */
+}
+
+.shop-card-body {
+    padding: 15px;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* button bottom me rahe */
+    box-sizing: border-box;
+}
+
+.shop-card-body h5 {
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+.shop-card-body p {
+    color: #dc3545;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+/* Button full width aur bottom aligned */
+.shop-card-body .btn {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .shop-card img {
+        height: 380px; /* mobile-friendly height */
+    }
+}

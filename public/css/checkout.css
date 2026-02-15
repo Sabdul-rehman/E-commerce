@@ -1,0 +1,28 @@
+.checkout-page {
+    background: #fafafa;
+}
+
+.checkout-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.05);
+}
+
+.order-summary {
+    list-style: none;
+    padding: 0;
+}
+
+.order-summary li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.order-summary .total {
+    font-weight: 600;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}

@@ -1,0 +1,61 @@
+.product-image-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* BIG MAIN IMAGE */
+.product-main-img {
+    height: 520px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Thumbnails */
+.product-thumbs {
+    display: flex;
+    gap: 12px;
+}
+
+.product-thumbs .thumb {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+}
+
+/* Zoom effect */
+.product-main-img {
+    cursor: zoom-in;
+    transition: transform 0.2s ease;
+    transform-origin: center center; /* initially center */
+}
+
+
+.product-thumbs .thumb.active {
+    border-color: #000;
+}
+
+/* Classical dark arrows */
+.custom-arrow {
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .product-main-img {
+        height: 380px;
+    }
+
+    .product-thumbs .thumb {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+

@@ -1,0 +1,34 @@
+.about-page {
+    background-color: #fafafa;
+}
+
+.about-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.05);
+    height: 100%;
+}
+
+.feature-box {
+    background: #fff;
+    padding: 25px 15px;
+    border-radius: 8px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.05);
+}
+
+.feature-box i {
+    font-size: 28px;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.feature-box h6 {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.feature-box p {
+    font-size: 14px;
+    color: #555;
+}
