@@ -1,56 +1,7 @@
 <x-app-layout>
 <div class="d-flex" style="min-height:100vh;">
 
-    <!-- Sidebar -->
-    <nav class="bg-dark text-light p-3 flex-shrink-0" style="width:250px;">
-        <div class="text-center mb-4">
-            <h4>Admin Panel</h4>
-        </div>
-
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link text-light" href="#">Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" data-bs-toggle="collapse" href="#collapseOrders" role="button">
-                    Orders
-                </a>
-                <div class="collapse ps-3" id="collapseOrders">
-                    <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link text-light" href="#">All Orders</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">Pending</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">Shipped</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">Completed</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" data-bs-toggle="collapse" href="#collapseProducts" role="button">
-                    Products
-                </a>
-                <div class="collapse ps-3" id="collapseProducts">
-                    <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link text-light" href="#">Add Product</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="#">Manage Products</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" data-bs-toggle="collapse" href="#collapseCategories" role="button">
-                    Categories
-                </a>
-                <div class="collapse ps-3" id="collapseCategories">
-                    <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('stichedForm') }}">Stitched&Unstitched</a></li>
-                        <li class="nav-item"><a class="nav-link text-light" href="{{ route('homePageForm') }}">Home page</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li class="nav-item"><a class="nav-link text-light" href="#">Banners</a></li>
-            <li class="nav-item"><a class="nav-link text-light" href="#">Users</a></li>
-            <li class="nav-item"><a class="nav-link text-light" href="#">Settings</a></li>
-        </ul>
-    </nav>
+                @include('public.partials.sidebar')
 
 
     
@@ -62,13 +13,17 @@
             <input type="text" class="form-control w-auto" placeholder="Search...">
         </div>
 
+        @if(session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
         <!-- Stats Cards -->
         <div class="row mb-4">
             <div class="col-md-3 mb-3">
                 <div class="card text-center">
                     <div class="card-body">
                         <h6>Total Orders</h6>
-                        <h3>120</h3>
+                        <h3>{{$orderCount}}</h3>
                     </div>
                 </div>
             </div>
@@ -83,85 +38,155 @@
             <div class="col-md-3 mb-3">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h6>Products</h6>
-                        <h3>50</h3>
+                        <h6>Total Categories</h6>
+                        <h3>{{ $categoryCount }}</h3>
                     </div>
                 </div>
             </div>
             <div class="col-md-3 mb-3">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h6>Customers</h6>
-                        <h3>80</h3>
+                        <h6>Total Cart Records</h6>
+                        <h3>{{ $cartCount }}</h3>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Quick Action Buttons -->
-        <div class="mb-4">
-            <a href="#" class="btn btn-danger me-2">Add Product</a>
-            <a href="#" class="btn btn-danger me-2">Upload Banner</a>
-            <a href="#" class="btn btn-danger">View Orders</a>
-        </div>
+       <div class="card shadow-sm border-0">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold">Orders Management</h5>
 
-        <!-- Recent Orders Table -->
-        <div class="card">
-            <div class="card-header">
-                Recent Orders
-            </div>
-            <div class="card-body p-0">
-                <table class="table mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#1001</td>
-                            <td>Customer 1</td>
-                            <td>Rs 2500</td>
-                            <td class="text-success">Completed</td>
-                            <td>2026-02-07</td>
-                        </tr>
-                        <tr>
-                            <td>#1002</td>
-                            <td>Customer 2</td>
-                            <td>Rs 3000</td>
-                            <td class="text-warning">Pending</td>
-                            <td>2026-02-06</td>
-                        </tr>
-                        <tr>
-                            <td>#1003</td>
-                            <td>Customer 3</td>
-                            <td>Rs 1500</td>
-                            <td class="text-danger">Cancelled</td>
-                            <td>2026-02-05</td>
-                        </tr>
-                        <tr>
-                            <td>#1004</td>
-                            <td>Customer 4</td>
-                            <td>Rs 4000</td>
-                            <td class="text-success">Completed</td>
-                            <td>2026-02-04</td>
-                        </tr>
-                        <tr>
-                            <td>#1005</td>
-                            <td>Customer 5</td>
-                            <td>Rs 3500</td>
-                            <td class="text-info">Processing</td>
-                            <td>2026-02-03</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="d-flex gap-2">
+            <a href="{{ route('admin.orders.history') }}" class="btn btn-sm btn-outline-secondary">
+                Order History
+            </a>
+            <input type="text" class="form-control form-control-sm" placeholder="Search order...">
         </div>
+    </div>
 
+    <div class="table-responsive">
+        <table class="table align-middle mb-0 table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Order</th>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>City</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @forelse($orders as $index => $order)
+                <tr>
+                    <td class="fw-semibold">
+                        {{ $orders->firstItem() + $index }}
+                    </td>
+
+                    <td>
+                        <span class="fw-bold text-dark">
+                            {{ $order->order_number }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <div class="fw-semibold">{{ $order->customer_name }}</div>
+                        <small class="text-muted">
+                            {{ $order->customer_email ?? '—' }}
+                        </small>
+                    </td>
+
+                    <td>{{ $order->customer_phone }}</td>
+
+                    <td>
+                        <span class="badge bg-light text-dark border">
+                            {{ $order->shipping_city }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="fw-semibold">
+                            {{ $order->items_count ?? $order->items->count() }}
+                        </span>
+                    </td>
+
+                    <td class="fw-bold text-success">
+                        Rs {{ number_format($order->total_amount, 2) }}
+                    </td>
+
+                    <td>
+                        @if($order->payment_method == 'COD')
+                            <span class="badge bg-warning text-dark">COD</span>
+                        @else
+                            <span class="badge bg-success">{{ $order->payment_method }}</span>
+                        @endif
+                    </td>
+
+                    <td>
+                        @php
+                            $statusColors = [
+                                'pending' => 'warning',
+                                'dispatched' => 'info',
+                                'completed' => 'success',
+                                'cancelled' => 'danger'
+                            ];
+                        @endphp
+
+                        <span class="badge bg-{{ $statusColors[$order->status] ?? 'secondary' }}">
+                            {{ ucfirst($order->status) }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <small class="text-muted">
+                            {{ \Illuminate\Support\Carbon::parse($order->created_at)->format('d M Y') }}
+                        </small>
+                    </td>
+
+                    <td class="text-end">
+                        <div class="d-flex justify-content-end gap-1">
+
+                            <a href="{{ route('admin.orders.show', $order->id) }}"
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-eye">View</i>
+                            </a>
+                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('PATCH')
+                                <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                    <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="dispatched" {{ $order->status === 'dispatched' ? 'selected' : '' }}>Dispatched</option>
+                                    <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>Completed</option>
+                                    <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                    <option value="removed" {{ $order->status === 'removed' ? 'selected' : '' }}>Removed</option>
+                                </select>
+                            </form>
+
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="11" class="text-center py-4 text-muted">
+                        No orders found
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-footer bg-white">
+        {{ $orders->links() }}
+    </div>
+</div>
     </div>
 </div>
 </x-app-layout>

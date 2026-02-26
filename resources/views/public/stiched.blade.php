@@ -79,10 +79,13 @@
             </div>
 
 
-
     @endif
             @endforeach
         </div>
+</div>
+<!-- Pagination links yahan lagao -->
+<div class="pagination-wrapper d-flex justify-content-center mt-5">
+    {{ $products->links() }}
 </div>
 <br>
 @include('public.partials.footer');

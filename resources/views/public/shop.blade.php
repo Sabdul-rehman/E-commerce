@@ -38,29 +38,71 @@
 
 
         <!-- Cards -->
-        <div class="row g-2">
+        {{-- <div class="row g-2">
             @foreach ($products as $productItem)
-                <div class="col-lg-3 col-md-4 col-sm-6">
-                    @php
-                        $images = json_decode($productItem->image) ?? [];
-                        $firstImage = $images[0] ?? null; // pehli image
-                    @endphp
-                    <div class="shop-card">
-                        @if($firstImage)
-                            <img src="{{ asset('image/categories_image/' . $firstImage) }}" alt="">
-                        @endif
-                        <div class="shop-card-body">
-                            <h5>{{ $productItem->product_name }}</h5>
-                            <p>Rs {{ $productItem->price }}</p>
-                            <a href="/shop/{{ $productItem->Cid }}" class="btn btn-outline-danger w-100">Shop Now</a>
-                        </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                @php
+                $images = json_decode($productItem->image) ?? [];
+                $firstImage = $images[0] ?? null; // pehli image
+                @endphp
+                <div class="shop-card">
+                    @if($firstImage)
+                    <img src="{{ asset('image/categories_image/' . $firstImage) }}" alt="">
+                    @endif
+                    <div class="shop-card-body">
+                        <h5>{{ $productItem->product_name }}</h5>
+                        <p>Rs {{ $productItem->price }}</p>
+                        <a href="/shop/{{ $productItem->Cid }}" class="btn btn-outline-danger w-100">Shop Now</a>
                     </div>
                 </div>
+            </div>
             @endforeach
+        </div> --}}
+        <div class="row g-2" id="shop-product-container">
+            @include('public.partials.cards_shopproduct')
         </div>
-
     </div>
 </section>
+
+
+<div class="text-center m-3">
+    <button id="shop-load-more-btn" class="btn btn-dark px-4 py-2">
+        Load More
+    </button>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+{{-- ajax for load more --}}
+
+<script>
+    let page = 1;
+
+    $('#shop-load-more-btn').click(function () {
+        page++;
+
+        $.ajax({
+            url: "?page=" + page,
+            type: "GET",
+            beforeSend: function () {
+                $('#shop-load-more-btn').text('Loading...');
+            },
+            success: function (response) {
+
+                if (response.trim() == '') {
+                    $('#shop-load-more-btn').text('No More Products');
+                    $('#shop-load-more-btn').prop('disabled', true);
+                    return;
+                }   
+
+                $('#shop-product-container').append(response);
+                $('#shop-load-more-btn').text('Load More');
+            }
+        });
+
+    });
+</script>
 
 
 

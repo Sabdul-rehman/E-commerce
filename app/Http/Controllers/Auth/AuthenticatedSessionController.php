@@ -27,8 +27,19 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+        if ($request->user()?->role !== 'admin') {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
 
-      return redirect()->intended(route('home'));
+            return back()
+                ->withErrors(['email' => 'Admin access only.'])
+                ->onlyInput('email');
+        }
+
+        $request->session()->put('auth_context', 'admin');
+
+        return redirect()->intended(route('dashboard'));
 
     }
 

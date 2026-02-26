@@ -11,63 +11,13 @@
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
                 @endforeach
-            </ul>
+            </ul>   
         </div>
         @endif
     <div class="container-fluid">
         <div class="row">
-            {{-- Sidebar --}}
-            <nav class="col-md-3 bg-dark text-light p-3" style="min-height: 100vh;">
-                <div class="text-center mb-4">
-                    <h4>Admin Panel</h4>
-                </div>
-
-                <ul class="nav flex-column">
-                    <li class="nav-item"><a class="nav-link text-light" href="#">Dashboard</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" data-bs-toggle="collapse" href="#collapseOrders" role="button">
-                            Orders
-                        </a>
-                        <div class="collapse ps-3" id="collapseOrders">
-                            <ul class="nav flex-column">
-                                <li class="nav-item"><a class="nav-link text-light" href="#">All Orders</a></li>
-                                <li class="nav-item"><a class="nav-link text-light" href="#">Pending</a></li>
-                                <li class="nav-item"><a class="nav-link text-light" href="#">Shipped</a></li>
-                                <li class="nav-item"><a class="nav-link text-light" href="#">Completed</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" data-bs-toggle="collapse" href="#collapseProducts" role="button">
-                            Products
-                        </a>
-                        <div class="collapse ps-3" id="collapseProducts">
-                            <ul class="nav flex-column">
-                                <li class="nav-item"><a class="nav-link text-light" href="#">Add Product</a></li>
-                                <li class="nav-item"><a class="nav-link text-light" href="#">Manage Products</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" data-bs-toggle="collapse" href="#collapseCategories"
-                            role="button">
-                            Categories
-                        </a>
-                        <div class="collapse ps-3" id="collapseCategories">
-                            <ul class="nav flex-column">
-                                <li class="nav-item"><a class="nav-link text-light"
-                                        href="{{ route('stichedForm') }}">Stitched&Unstitched</a></li>
-                                <li class="nav-item"><a class="nav-link text-light"
-                                        href="{{ route('homePageForm') }}">Home page</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item"><a class="nav-link text-light" href="#">Banners</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="#">Users</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="#">Settings</a></li>
-                </ul>
-            </nav>
-
+                
+                    @include('public.partials.sidebar')
             {{-- Main Content --}}
             <div class="col-md-9 background_color">
                 <h1 class="d-flex justify-content-center m-3" style="font-size: 40px">Stiched & Unstitched Form</h1>

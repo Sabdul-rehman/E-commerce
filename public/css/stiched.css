@@ -92,6 +92,68 @@
 .carousel-control-next:hover .carousel-control-next-icon {
     opacity: 1;
 }
+
+
+
+
+/* Pagination Wrapper */
+.pagination-wrapper nav {
+    display: flex;
+    justify-content: center;
+}
+
+/* Pagination ul */
+.pagination {
+    gap: 6px;
+}
+
+/* Pagination buttons */
+.pagination .page-link {
+    color: #000;
+    border: 1px solid #e0e0e0;
+    padding: 8px 14px;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color: #fff;
+    transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.pagination .page-link:hover {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* Active page */
+.pagination .page-item.active .page-link {
+    background-color: #000;
+    border-color: #000;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Disabled buttons */
+.pagination .page-item.disabled .page-link {
+    color: #aaa;
+    background-color: #f8f9fa;
+    border-color: #e0e0e0;
+}
+
+/* Previous & Next special styling */
+.pagination .page-link[rel="prev"],
+.pagination .page-link[rel="next"] {
+    font-weight: 500;
+}
+
+/* Mobile responsive */
+@media (max-width: 576px) {
+    .pagination .page-link {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+}
+
    
         
 

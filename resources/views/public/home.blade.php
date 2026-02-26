@@ -2,14 +2,25 @@
     🚚 Free Delivery on Orders Above Rs 3000 | 📞 Support: 0300-1234567
 </div> --}}
 
+
+
 @include('public.partials.navbar')
 <html>
+
+
 
 <body>
     <button id="backToTop" aria-label="Back to top">
         ↑
     </button>
 
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/923001234567" 
+   target="_blank" 
+   class="whatsapp-float" 
+   title="Chat with us on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
 
 
     <div class="container-fluid p-0 ">
@@ -31,10 +42,10 @@
 
                 <!-- Buttons -->
                 <div class="d-flex justify-content-center gap-3">
-                    <a href="https://wa.me/923001234567" target="_blank"
+                    {{-- <a href="https://wa.me/923001234567" target="_blank"
                         class="btn btn-success hero-btn d-flex align-items-center gap-2 px-4 py-2 shadow">
                         <i class="bi bi-whatsapp"></i> WhatsApp
-                    </a>
+                    </a> --}}
 
                     <a href="/shop" class="btn btn-danger hero-btn d-flex align-items-center gap-2 px-4 py-2 shadow">
                         Shop Now
@@ -93,8 +104,8 @@
 
     {{-- new section --}}
 
-    <section class="accessories-section py-5">
-        <div class="container">
+    <section class="accessories-section py-5" style="margin-left: 40px; margin-right: 40px;">
+        <div class="container-fluid" >
             <h2 class="text-center mb-5 accessories-title"> <b> Featured Collection </b></h2>
 
             @foreach ($products as $productItem)
@@ -106,7 +117,7 @@
                 @if(in_array('Stitched', $type))
                 @endif
             @endforeach
-            <div class="row g-4">
+            <div class="row g-2">
                 <!-- Left Large -->
                 <div class="col-lg-4 col-md-6">
                     <div class="acc-card acc-large">
@@ -121,7 +132,7 @@
 
                 <!-- Middle Column -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="row g-4">
+                    <div class="row g-2">
 
                         <div class="col-12">
                             <div class="acc-card acc-small">
@@ -502,6 +513,8 @@
 
         updateTopSeller();
     </script>
+
+
 
 
 </body>
