@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -67,7 +67,7 @@
             flex-shrink: 0;
         }
 
-        /* 🔥 FIXED rotating span */
+        /* ðŸ”¥ FIXED rotating span */
         .fashion-rotate span {
             position: absolute;
             font-size: 7px;
@@ -174,6 +174,55 @@
             opacity: 0;
             visibility: hidden;
         }
+
+        .cart-link {
+            position: relative;
+            text-decoration: none;
+        }
+
+        .cart-icon-wrap {
+            width: 42px;
+            height: 42px;
+            border: 1px solid #e7c9d4;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #fff, #fff5f8);
+            color: #8a154b;
+            box-shadow: 0 6px 16px rgba(138, 21, 75, 0.12);
+            transition: all 0.2s ease;
+        }
+
+        .cart-link:hover .cart-icon-wrap {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(138, 21, 75, 0.18);
+            color: #6f0f3b;
+        }
+
+        .cart-icon-wrap i {
+            font-size: 1.1rem;
+        }
+
+        .cart-count-badge {
+            position: absolute;
+            top: -7px;
+            right: -7px;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 999px;
+            background: #dc3545;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 20px;
+            text-align: center;
+            border: 2px solid #fff;
+        }
+        .custom-link{
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
     </style>
 </head>
 
@@ -184,23 +233,23 @@
             <svg class="dress-icon" viewBox="0 0 24 24">
                 <path d="M12 2l3 4 3-2 2 4-3 2v10H7V10L4 8l2-4 3 2z" />
             </svg>
-            <div class="loading-text" id="loadText">Afifas nadias</div>
+            <div class="loading-text" id="loadText">Zyra Atelier</div>
         </div>
     </div>
     <!-- PRELOADER END -->
     <div class="bg-dark text-white text-center py-1 small top-offer">
-        🚚 Free Delivery on Orders Above Rs 3000 | 📞 Support: 0300-1234567
+        ðŸšš Free Delivery on Orders Above Rs 3000 | ðŸ“ž Support: 0300-1234567
     </div>
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
         <div class="container">
 
             <div class="fashion-rotate">
-                <span>Afifa's</span>
+                <span>Zyra Atelier</span>
             </div>
 
 
             <a class="navbar-brand fw-bold" href="/">
-                Afifa's<span class="text-danger">Nadias</span>
+                Zyra <span class="text-danger">Atelier</span>
             </a>
 
             <!-- Mobile Toggle -->
@@ -214,23 +263,33 @@
                 <!-- Left Links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="/">Home</a>
+                        <a class="nav-link {{ request()->routeIs('home') ? 'text-danger custom-link text-decoration-underline fw-semibold' : '' }}"
+                            href="{{ route('home') }}">Home</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('shopPage') }}">Shop All</a>
+                        <a class="nav-link {{ request()->routeIs('shopPage') ? 'text-danger custom-link text-decoration-underline fw-semibold' : '' }}"
+                            href="{{ route('shopPage') }}">Shop All</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('stiched') }}">Stitched</a>
+                        <a class="nav-link {{ request()->routeIs('stiched') ? 'text-danger custom-link text-decoration-underline fw-semibold' : '' }}"
+                            href="{{ route('stiched') }}">Stitched</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('unstiched') }}">UnStitched</a>
+                        <a class="nav-link {{ request()->routeIs('unstiched') ? 'text-danger custom-link text-decoration-underline fw-semibold' : '' }}"
+                            href="{{ route('unstiched') }}">UnStitched</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('about') }}">About Us</a>
+                        <a class="nav-link {{ request()->routeIs('embroidery') ? 'text-danger custom-link text-decoration-underline fw-semibold' : '' }}"
+                            href="{{ route('embroidery') }}">Embroidery</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
+                        <a class="nav-link {{ request()->routeIs('about') ? 'text-danger custom-link text-decoration-underline fw-semibold' : '' }}"
+                            href="{{ route('about') }}">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('contact') ? 'text-danger custom-link text-decoration-underline fw-semibold' : '' }}"
+                            href="{{ route('contact') }}">Contact Us</a>
                     </li>
 
                     {{-- <li class="nav-item dropdown">
@@ -248,11 +307,11 @@
                 <!-- Right Side -->
                 <div class="d-flex align-items-center gap-3">
                     <!-- Cart -->
-                    <a href="/Cart" class="text-dark position-relative">
-                        🛒
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                            {{ $cartCount ?? 0 }}
+                    <a href="/Cart" class="cart-link" aria-label="View cart">
+                        <span class="cart-icon-wrap">
+                            <i class="bi bi-bag-heart-fill"></i>
                         </span>
+                        <span class="cart-count-badge">{{ $cartCount ?? 0 }}</span>
                     </a>
                     @guest
 
@@ -298,3 +357,4 @@
 </script>
     </body>
 </html>
+

@@ -1,5 +1,5 @@
 {{-- <div class="bg-dark text-white text-center py-1 small top-offer">
-    🚚 Free Delivery on Orders Above Rs 3000 | 📞 Support: 0300-1234567
+    Free Delivery on Orders Above Rs 3000 | Support: 0300-1234567
 </div> --}}
 
 
@@ -11,7 +11,7 @@
 
 <body>
     <button id="backToTop" aria-label="Back to top">
-        ↑
+        <i class="bi bi-arrow-up-short" aria-hidden="true"></i>
     </button>
 
 <!-- WhatsApp Floating Button -->
@@ -282,68 +282,47 @@
         </div>
     </section>
 
-
-    {{-- Reviews --}}
-    <section class="testimonials-section py-5" style="  overflow-x: hidden; ">
-        <div class="container text-center">
-            <h2 class="text-white mb-4">Top Sellers Reviews</h2>
-            <div class="testimonials-marquee">
-                <div class="testimonials-track">
-                    <div class="testimonial-card">
-                        <img src="{{ asset('image/n9.webp') }}" alt="User" class="testimonial-icon">
-                        <h5 class="testimonial-name">Ali R.</h5>
-                        <p class="testimonial-comment">Amazing quality suits, totally worth it!</p>
-                        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                    <div class="testimonial-card">
-                        <img src="{{ asset('image/n1.jfif') }}" alt="User" class="testimonial-icon">
-                        <h5 class="testimonial-name">Sana K.</h5>
-                        <p class="testimonial-comment">Fabric aur stitching dono top class.</p>
-                        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                    <div class="testimonial-card">
-                        <img src="{{ asset('image/n2.jfif') }}" alt="User" class="testimonial-icon">
-                        <h5 class="testimonial-name">Usman A.</h5>
-                        <p class="testimonial-comment">Fast delivery & beautiful design.</p>
-                        <div class="testimonial-stars">⭐⭐⭐⭐</div>
-                    </div>
-                    <div class="testimonial-card">
-                        <img src="{{ asset('image/n3.webp') }}" alt="User" class="testimonial-icon">
-                        <h5 class="testimonial-name">Ayesha M.</h5>
-                        <p class="testimonial-comment">Perfect fitting, will order again.</p>
-                        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-
-                    <!-- Duplicate for seamless infinite scroll -->
-                    <div class="testimonial-card">
-                        <img src="{{ asset('image/n11.jpg') }}" alt="User" class="testimonial-icon">
-                        <h5 class="testimonial-name">Ali R.</h5>
-                        <p class="testimonial-comment">Amazing quality suits, totally worth it!</p>
-                        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                    <div class="testimonial-card">
-                        <img src="{{ asset('image/user-icon.png') }}" alt="User" class="testimonial-icon">
-                        <h5 class="testimonial-name">Sana K.</h5>
-                        <p class="testimonial-comment">Fabric aur stitching dono top class.</p>
-                        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                    <div class="testimonial-card">
-                        <img src="{{ asset('image/user-icon.png') }}" alt="User" class="testimonial-icon">
-                        <h5 class="testimonial-name">Usman A.</h5>
-                        <p class="testimonial-comment">Fast delivery & beautiful design.</p>
-                        <div class="testimonial-stars">⭐⭐⭐⭐</div>
-                    </div>
-                    <div class="testimonial-card">
-                        <img src="{{ asset('image/user-icon.png') }}" alt="User" class="testimonial-icon">
-                        <h5 class="testimonial-name">Ayesha M.</h5>
-                        <p class="testimonial-comment">Perfect fitting, will order again.</p>
-                        <div class="testimonial-stars">⭐⭐⭐⭐⭐</div>
-                    </div>
-                </div>
-            </div>
+{{-- Reviews --}}
+<section class="testimonials-section py-5" style="overflow-x: hidden;">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="testimonials-title">Customer Reviews</h2>
+            <p class="testimonials-subtitle mb-0">Trusted feedback from real Zyra Atelier customers</p>
         </div>
-    </section>
 
+        @if($reviews->isNotEmpty())
+            <div class="testimonials-grid">
+                @foreach($reviews as $review)
+                    <article class="testimonial-card">
+                        <div class="testimonial-head">
+                            <div class="testimonial-avatar">
+                                {{ strtoupper(substr($review->user->name ?? 'U', 0, 1)) }}
+                            </div>
+                            <div>
+                                <h5 class="testimonial-name mb-0">{{ $review->user->name ?? 'Customer' }}</h5>
+                                <small class="testimonial-date">{{ $review->created_at?->format('d M Y') }}</small>
+                            </div>
+                        </div>
+
+                        <div class="testimonial-stars" aria-label="{{ $review->rating }} out of 5 stars">
+                            @for($i = 1; $i <= 5; $i++)
+                                <i class="bi {{ $i <= $review->rating ? 'bi-star-fill filled' : 'bi-star' }}"></i>
+                            @endfor
+                        </div>
+
+                        <p class="testimonial-comment">
+                            {{ $review->comment ?: 'Great experience with product quality and overall service.' }}
+                        </p>
+                    </article>
+                @endforeach
+            </div>
+        @else
+            <div class="testimonials-empty text-center">
+                No approved reviews available yet.
+            </div>
+        @endif
+    </div>
+</section>
 
 
 
@@ -463,7 +442,7 @@
 
         window.addEventListener("scroll", () => {
             if (window.scrollY > 300) {
-                btn.style.display = "block";
+                btn.style.display = "flex";
             } else {
                 btn.style.display = "none";
             }

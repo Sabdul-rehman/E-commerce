@@ -1,92 +1,85 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Login - Affifa’s Nadia’s</title>
+    <title>Admin Login | Zyra Atelier</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- Custom CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/login&register.css') }}">
 </head>
-<body>
-    <div class="login-container">
-        <div class="login-card">
-            <!-- Brand / Title -->
-            <div class="login-brand text-center">
-                <h1>Login</h1>
-                <p>Affifa’s Nadia’s</p>
+<body class="auth-page">
+    <main class="auth-shell">
+        <section class="auth-card">
+            <div class="auth-brand">
+                <span class="auth-badge">Admin Panel</span>
+                <h1>Sign in to dashboard</h1>
+                <p>Use your admin credentials to access Zyra Atelier control center.</p>
             </div>
 
-            <!-- Session Status -->
             @if (session('status'))
-                <div class="session-status">{{ session('status') }}</div>
+                <div class="flash-success" role="status">{{ session('status') }}</div>
             @endif
 
-            <!-- Login Form -->
-            <form method="POST" action="{{ route('login') }}">
+            <form method="POST" action="{{ route('login') }}" class="auth-form">
                 @csrf
 
-                <!-- Email -->
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input 
-                        id="email" 
-                        type="email" 
-                        name="email" 
-                        value="{{ old('email') }}" 
-                        required 
+                    <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        value="{{ old('email') }}"
+                        required
                         autofocus
+                        autocomplete="username"
                         class="form-input"
+                        placeholder="admin@example.com"
                     >
                     @error('email')
                         <div class="error">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <!-- Password -->
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input 
-                        id="password" 
-                        type="password" 
-                        name="password" 
+                    <input
+                        id="password"
+                        type="password"
+                        name="password"
                         required
+                        autocomplete="current-password"
                         class="form-input"
+                        placeholder="Enter your password"
                     >
                     @error('password')
                         <div class="error">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <!-- Remember Me -->
-                <div class="form-group remember-me">
-                    <label>
-                        <input type="checkbox" name="remember"> Remember Me
+                <div class="form-row">
+                    <label class="remember-wrap" for="remember">
+                        <input id="remember" type="checkbox" name="remember">
+                        <span>Remember me</span>
                     </label>
+
+                    @if (Route::has('password.request'))
+                        <a class="inline-link" href="{{ route('password.request') }}">Forgot password?</a>
+                    @endif
                 </div>
 
-                <!-- Forgot Password -->
-                @if (Route::has('password.request'))
-                    <div class="form-group forgot-password">
-                        <a href="{{ route('password.request') }}">Forgot password?</a>
-                    </div>
-                @endif
+                <button type="submit" class="auth-btn">Sign In</button>
 
-                <!-- Submit -->
-                <div class="form-group">
-                    <button type="submit" class="login-btn">Log In</button>
-                </div>
-
-                <!-- Register Link -->
-                <p class="register-link text-center">
-                    Don’t have an account? <a href="{{ route('register') }}">Register</a>
+                <p class="meta-link">
+                    Need admin account? <a href="{{ route('register') }}">Create one</a>
                 </p>
             </form>
-        </div>
-    </div>
+        </section>
+    </main>
 </body>
 </html>
+

@@ -1,11 +1,11 @@
-@include('public.partials.navbar')
+﻿@include('public.partials.navbar')
 <!-- About Us Page -->
 <div class="about-page py-5" >
     <div class="container"style=" overflow-x: hidden; ">
 
         <!-- Header -->
         <div class="text-center mb-5">
-            <h2 class="fw-bold">About Afifa’s Nadia’s</h2>
+            <h2 class="fw-bold">About Zyra Atelier</h2>
             <p class="text-muted">
                 Where elegance meets everyday fashion
             </p>
@@ -18,14 +18,14 @@
             <div class="col-lg-6" >
                 <img src="{{ asset('image/aboutus2.jpg') }}  " 
                      class="img-fluid rounded shadow-sm " 
-                     alt="Afifa's Nadia's Fashion"  >
+                     alt="Zyra Atelier Fashion"  >
             </div>
 
             <!-- Text -->
             <div class="col-lg-6">
                 <h4 class="mb-3">Who We Are</h4>
                 <p>
-                    <strong>Afifa’s Nadia’s</strong> is a modern ladies clothing brand
+                    <strong>Zyra Atelier</strong> is a modern ladies clothing brand
                     dedicated to offering stylish, elegant, and comfortable fashion
                     for women of all ages. We specialize in both
                     <strong>stitched and unstitched</strong> collections that blend
@@ -35,7 +35,7 @@
                 <p>
                     Our designs are carefully curated to reflect grace, quality,
                     and affordability. Whether you are dressing for everyday wear,
-                    festive occasions, or formal gatherings, Afifa’s Nadia’s ensures
+                    festive occasions, or formal gatherings, Zyra Atelier ensures
                     you always look confident and refined.
                 </p>
             </div>
@@ -70,7 +70,7 @@
 
         <!-- Why Choose Us -->
         <div class="mt-5">
-            <h4 class="text-center mb-4">Why Choose Afifa’s Nadia’s</h4>
+            <h4 class="text-center mb-4">Why Choose Zyra Atelier</h4>
 
             <div class="row g-4 text-center">
                 <div class="col-md-3">
@@ -110,3 +110,4 @@
     </div>
 </div>
 @include('public.partials.footer')
+

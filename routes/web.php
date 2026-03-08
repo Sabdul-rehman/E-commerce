@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\FrontendAuthController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Review;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\DB;
@@ -41,10 +42,6 @@ Route::get('/About-Us', function () {
 //     return view('public.cart');
 // })->name('cart');
 
-Route::get('/shop', function () {
-    return view('public.shop');
-})->name('StichedForm');
-
 Route::get('/stichedForm', function () {
     return view('public.forms.stichedForm');
 })->name('stichedForm')->middleware(['auth', 'admin.context']);
@@ -77,9 +74,12 @@ Route::post('/account/logout', [FrontendAuthController::class, 'logout'])
 //     return view('/public.dashboard.Maindashboard');
 // });
 
+
+
 Route::get('/dashboard', function () {
     $categoryCount = Category::count();
     $cartCount = Cart::count();
+    $pendingReviewCount = Review::where('status', 'pending')->count();
     $orderCount = DB::table('orders')
         ->where(function ($query) {
             $query->whereNull('status')
@@ -101,8 +101,14 @@ Route::get('/dashboard', function () {
         ->select('orders.*', DB::raw('COALESCE(order_item_counts.items_count, 0) as items_count'))
         ->orderByDesc('orders.id')
         ->paginate(10);
+
+    $pendingReviews = Review::with(['user', 'product'])
+        ->where('status', 'pending')
+        ->latest()
+        ->take(10)
+        ->get();
     
-    return view('dashboard', compact('categoryCount', 'cartCount', 'orderCount', 'orders'));
+    return view('dashboard', compact('categoryCount', 'cartCount', 'pendingReviewCount', 'orderCount', 'orders', 'pendingReviews'));
 })->middleware(['auth', 'verified', 'admin.context'])->name('dashboard');
 
 
@@ -118,6 +124,7 @@ Route::resource('category_form', categoriesController::class)
 
 Route::get('/stiched', [categoriesController::class, 'stiched'])->name('stiched');
 Route::get('/unstiched', [categoriesController::class, 'unstitched'])->name('unstiched');
+Route::get('/embroidery', [categoriesController::class, 'embroidery'])->name('embroidery');
 Route::get('/', [categoriesController::class, 'homePage'])->name('home');
 Route::get('/Cart', [CartController::class, 'index'])->name('cart');
 Route::get('/Checkout', [CartController::class, 'getCheckoutData'])->name('Checkout');
@@ -132,15 +139,24 @@ Route::middleware(['auth', 'admin.context'])->group(function () {
     Route::patch('/admin/orders/{id}/restore', [CartController::class, 'restoreOrder'])->name('admin.orders.restore');
     Route::delete('/admin/orders/{id}/force-delete', [CartController::class, 'forceDeleteOrder'])->name('admin.orders.forceDelete');
     Route::get('/admin/orders/{id}', [CartController::class, 'showOrderDetail'])->name('admin.orders.show');
+    Route::patch('/admin/reviews/{review}/status', [CategoriesController::class, 'updateReviewStatus'])->name('admin.reviews.updateStatus');
 });
 
 // display all categories data in s&u_display page
 Route::get('/display', [categoriesController::class, 'display'])->name('su_display')->middleware(['auth', 'admin.context']);
 
+// Route::get('/unstiched/filter', [categoriesController::class, 'filter'])->name('shop.filter');
+// Route::get('/stiched/filter', [categoriesController::class, 'filter'])->name('shop.filter');
 
-Route::get('/shop/{id}', [categoriesController::class, 'show'])->name('shop.show');
-
-// shop page route
+Route::get('/shop/filter', [categoriesController::class, 'filter'])->name('shop.filter');
 Route::get('/shop', [categoriesController::class, 'shopPage'])->name('shopPage');
+Route::get('/shop/{id}', [categoriesController::class, 'show'])->name('shop.show');
+Route::post('/shop/{id}/review', [categoriesController::class, 'storeReview'])
+    ->middleware('auth')
+    ->name('shop.review.store');
+
+// shop page route (same route also serves ajax requests from shopPage() method)
+
+
 
 require __DIR__.'/auth.php';

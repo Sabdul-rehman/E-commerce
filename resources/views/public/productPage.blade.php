@@ -2,6 +2,11 @@
 
 <div class="single-product-page py-5">
     <div class="container">
+        @if(session('review_status'))
+            <div class="alert alert-success review-alert mb-4">
+                {{ session('review_status') }}
+            </div>
+        @endif
 
         @foreach($products as $productItem)
 
@@ -244,6 +249,109 @@
                         </p>
                     </div>
 
+                </div>
+            </div>
+
+            @php
+                $reviews = $productItem->approvedReviews->sortByDesc('created_at')->values();
+                $reviewCount = $reviews->count();
+                $averageRating = $reviewCount ? round($reviews->avg('rating'), 1) : 0;
+                $ratingPercentage = $reviewCount ? ($averageRating / 5) * 100 : 0;
+                $userReview = auth()->check() ? $productItem->reviews->firstWhere('user_id', auth()->id()) : null;
+            @endphp
+
+            <div class="reviews-section mt-5">
+                <div class="reviews-head d-flex flex-wrap justify-content-between align-items-center gap-3">
+                    <div>
+                        <h4 class="mb-1">Customer Reviews</h4>
+                        <p class="text-muted mb-0">Real feedback from verified users of Zyra Atelier.</p>
+                    </div>
+                    <div class="reviews-summary">
+                        <div class="reviews-rating-number">{{ number_format($averageRating, 1) }}/5</div>
+                        <div class="reviews-stars-track">
+                            <span class="reviews-stars-fill" style="width: {{ $ratingPercentage }}%;">★★★★★</span>
+                            <span class="reviews-stars-base">★★★★★</span>
+                        </div>
+                        <small class="text-muted">{{ $reviewCount }} {{ $reviewCount === 1 ? 'review' : 'reviews' }}</small>
+                    </div>
+                </div>
+
+                <div class="row g-4 mt-1">
+                    <div class="col-lg-5">
+                        <div class="review-form-card">
+                            <h5 class="mb-3">{{ $userReview ? 'Update Your Review' : 'Write a Review' }}</h5>
+
+                            @auth
+                                <form action="{{ route('shop.review.store', $productItem->Cid) }}" method="POST">
+                                    @csrf
+                                    @if($userReview && $userReview->status === 'pending')
+                                        <div class="alert alert-warning py-2 mb-3">
+                                            Your latest review is pending admin approval.
+                                        </div>
+                                    @elseif($userReview && $userReview->status === 'rejected')
+                                        <div class="alert alert-danger py-2 mb-3">
+                                            Your previous review was rejected. You can submit an updated review.
+                                        </div>
+                                    @endif
+
+                                    <div class="mb-3">
+                                        <label for="rating-{{ $productItem->Cid }}" class="form-label">Rating</label>
+                                        <select id="rating-{{ $productItem->Cid }}" name="rating" class="form-select @error('rating') is-invalid @enderror" required>
+                                            <option value="">Select rating</option>
+                                            @for($star = 5; $star >= 1; $star--)
+                                                <option value="{{ $star }}" {{ (string)old('rating', optional($userReview)->rating) === (string)$star ? 'selected' : '' }}>
+                                                    {{ $star }} Star{{ $star > 1 ? 's' : '' }}
+                                                </option>
+                                            @endfor
+                                        </select>
+                                        @error('rating')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="comment-{{ $productItem->Cid }}" class="form-label">Comment</label>
+                                        <textarea id="comment-{{ $productItem->Cid }}" name="comment" rows="4" class="form-control @error('comment') is-invalid @enderror" placeholder="Share your experience with quality, fitting, and delivery...">{{ old('comment', optional($userReview)->comment) }}</textarea>
+                                        @error('comment')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <button type="submit" class="btn btn-dark px-4">Submit Review</button>
+                                </form>
+                            @else
+                                <p class="text-muted mb-3">Login required to post a review for this product.</p>
+                                <a href="{{ route('frontend.login') }}" class="btn btn-outline-dark px-4">Login to Review</a>
+                            @endauth
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div class="review-list-card">
+                            @forelse($reviews as $review)
+                                <article class="review-item">
+                                    <div class="d-flex justify-content-between align-items-start gap-2">
+                                        <div>
+                                            <h6 class="mb-1">{{ $review->user->name ?? 'Customer' }}</h6>
+                                            <div class="review-stars">
+                                                @for($i = 1; $i <= 5; $i++)
+                                                    <span class="{{ $i <= $review->rating ? 'filled' : '' }}">★</span>
+                                                @endfor
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">{{ $review->created_at?->format('d M Y') }}</small>
+                                    </div>
+                                    @if($review->comment)
+                                        <p class="mb-0 mt-2">{{ $review->comment }}</p>
+                                    @endif
+                                </article>
+                            @empty
+                                <div class="empty-reviews">
+                                    <p class="mb-0">No reviews yet. Be the first to review this product.</p>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -18,6 +18,58 @@
             min-width: 150px;
         }
 
+        /* Shared catalog toolbar (Shop / Stitched / Unstitched) */
+        .catalog-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            border: 1px solid #e8e8e8;
+            border-radius: 12px;
+            background: #fff;
+        }
+
+        .catalog-search-wrap {
+            flex: 1 1 420px;
+            max-width: 640px;
+        }
+
+        .catalog-search-wrap .input-group {
+            flex-wrap: nowrap;
+        }
+
+        .catalog-search-wrap .form-control,
+        .catalog-filter-select,
+        .catalog-search-wrap .btn {
+            min-height: 44px;
+        }
+
+        .catalog-search-wrap .btn {
+            min-width: 110px;
+            white-space: nowrap;
+        }
+
+        .catalog-filter-wrap {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .catalog-filter-select {
+            min-width: 210px;
+        }
+
+        .catalog-search-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+        }
+
         /* Product cards */
         .product-card {
             background-color: #fff;
@@ -70,6 +122,37 @@
         @media (max-width: 768px) {
             .product-card img {
                 height: 400px;
+            }
+
+            .catalog-toolbar {
+                padding: 12px;
+                gap: 10px;
+            }
+
+            .catalog-filter-wrap {
+                width: 100%;
+                justify-content: space-between;
+                margin-left: 0;
+            }
+
+            .catalog-filter-select {
+                min-width: 0;
+                flex: 1 1 auto;
+            }
+
+            .catalog-search-toggle {
+                display: inline-flex;
+            }
+
+            .catalog-search-wrap {
+                display: none;
+                width: 100%;
+                max-width: none;
+                flex-basis: 100%;
+            }
+
+            .catalog-toolbar.is-open .catalog-search-wrap {
+                display: block;
             }
         }
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -124,7 +124,7 @@
 <body>
     <div class="auth-wrap">
         <section class="side">
-            <h1>Afifa's Nadias</h1>
+            <h1>Zyra Atelier</h1>
             <p>Luxury pret and unstitched edits, crafted for modern wardrobes. Sign in to continue your shopping journey.</p>
         </section>
 
@@ -157,3 +157,4 @@
     </div>
 </body>
 </html>
+

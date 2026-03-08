@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Review;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Validation\Rule;
 
@@ -34,6 +36,15 @@ class categoriesController extends Controller
     return view('public.unstiched', compact('products'));
 
     }
+      public function embroidery()
+    {
+   
+    $products = Category::whereJsonContains('type', 'Embroidery')
+                        ->paginate(12);
+
+    return view('public.embroidery', compact('products'));
+
+    }
  public function shopPage()
 {
     $products = $this->getData()->paginate(12);
@@ -52,8 +63,9 @@ class categoriesController extends Controller
     //     'products' => $this->getData()
     // ]);
              $products = Category::orderBy('updated_at', 'desc')->get();
+              $reviews = Review::with('user')->where('status', 'approved')->latest()->take(5)->get();
 
-        return view('public.home', compact('products'));
+        return view('public.home', compact('products', 'reviews'));
     }
 
     /**
@@ -143,16 +155,120 @@ class categoriesController extends Controller
      */
     public function show(string $id)
     {
-      $products = Category::where('Cid', $id)->get();
+      $products = Category::with([
+            'approvedReviews' => function ($query) {
+                $query->with('user')->latest();
+            },
+            'reviews' => function ($query) {
+                if (Auth::check()) {
+                    $query->where('user_id', Auth::id());
+                } else {
+                    $query->whereRaw('1 = 0');
+                }
+            },
+        ])->where('Cid', $id)->get();
         return view('public.productPage', [
             'products' => $products
         ]);
 
     }
+
+
+
+    public function storeReview(Request $request, string $id)
+    {
+        $product = Category::where('Cid', $id)->firstOrFail();
+
+        $validated = $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string|max:1200',
+        ]);
+
+        Review::updateOrCreate(
+            [
+                'user_id' => Auth::id(),
+                'product_id' => $product->Cid,
+            ],
+            [
+                'rating' => $validated['rating'],
+                'comment' => $validated['comment'] ?? null,
+                'status' => 'pending',
+                'approved_by' => null,
+                'approved_at' => null,
+            ]
+        );
+
+        return redirect()->back()->with('review_status', 'Your review has been submitted and is pending admin approval.');
+    }
+
+    public function updateReviewStatus(Request $request, Review $review)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:approved,rejected,pending',
+        ]);
+
+        $review->status = $validated['status'];
+        $review->approved_by = $validated['status'] === 'approved' ? Auth::id() : null;
+        $review->approved_at = $validated['status'] === 'approved' ? now() : null;
+        $review->save();
+
+        return redirect()->back()->with('success', 'Review status updated successfully.');
+    }
     public function display(){
         $products = Category::all();
         return view('public.forms.s&u_display', compact('products'));
     }
+
+    // Filteration
+   public function filter(Request $request)
+{
+    $query = Category::query();
+
+    // page/type ke hisaab se data filter
+    if ($request->type === 'Stitched') {
+        $query->whereJsonContains('type', 'Stitched');
+    } elseif ($request->type === 'Unstitched') {
+        $query->whereJsonContains('type', 'Unstitched');
+    } elseif ($request->type === 'Embroidery') {
+        $query->whereJsonContains('type', 'Embroidery');
+    }
+
+    // sort
+    if ($request->sort === 'low') {
+        $query->orderBy('price', 'asc');
+    } elseif ($request->sort === 'high') {
+        $query->orderBy('price', 'desc');
+    } else {
+        $query->latest('updated_at');
+    }
+
+    $products = $query->paginate(12);
+
+    // ajax par sirf cards return
+    if ($request->ajax()) {
+        if ($request->type === 'Stitched') {
+            return view('public.partials.cards_stiched', compact('products'))->render();
+        }
+
+        if ($request->type === 'Unstitched') {
+            return view('public.partials.cards_unstiched', compact('products'))->render();
+        }
+        if ($request->type === 'Embroidery') {
+            return view('public.partials.cards_embroidery', compact('products'))->render();
+        }
+
+        return view('public.partials.cards_shopproduct', compact('products'))->render();
+    }
+
+    // non-ajax fallback
+    if ($request->type === 'Stitched') return view('public.stiched', compact('products'));
+    if ($request->type === 'Unstitched') return view('public.unstiched', compact('products'));
+    if ($request->type === 'Embroidery') return view('public.embroidery', compact('products'));
+    return view('public.shop', compact('products'));
+}
+
+
+
 
     /**
      * Show the form for editing the specified resource.

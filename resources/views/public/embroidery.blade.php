@@ -1,16 +1,11 @@
 @include('public.partials.navbar')
 
-
-
 <div class="container-fluid px-5">
 
-    <!-- Page Header -->
     <div class="page-header">
-        <h1>Stitched Collection</h1>
-        <p class="text-muted">Explore our latest stitched designs</p>
+        <h1>Embroidery Collection</h1>
+        <p class="text-muted">Explore our latest <b>Embroidery designs</b></p>
     </div>
-
-    <!-- Filters & Search -->
 
     <div id="catalogTools" class="catalog-toolbar mb-4">
         <div class="catalog-search-wrap">
@@ -25,16 +20,15 @@
                 data-search-toggle="#catalogTools" aria-label="Open search" aria-expanded="false">
                 <i class="bi bi-search"></i>
             </button>
+
             @include('public.partials.filterdropdown')
         </div>
     </div>
-    
-    <!-- Product Cards Grid -->
+
     <div class="row g-2" id="shop-product-container">
-        @include('public.partials.cards_stiched')
+        @include('public.partials.cards_embroidery')
     </div>
 </div>
-<!-- Pagination links yahan lagao -->
 <div class="pagination-wrapper d-flex justify-content-center mt-5">
     {{ $products->links() }}
 </div>

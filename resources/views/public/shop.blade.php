@@ -14,26 +14,28 @@
 
 
         <!-- Search + Filter -->
-        <div class="row mb-4 align-items-center">
-
-            <!-- Search -->
-            <div class="col-md-8">
-                <div class="input-group" style="width: 50%;">
+        <div id="catalogTools" class="catalog-toolbar mb-4">
+            <div class="catalog-search-wrap">
+                <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search products...">
-                    <button class="btn btn-danger">Search</button>
+                    <button class="btn btn-danger" type="button">Search</button>
                 </div>
             </div>
 
-            <!-- Filter (same simple style) -->
-            <div class="col-md-4 text-end">
-                <select class="form-select w-auto d-inline">
-                    <option selected>Filter</option>
+            <div class="catalog-filter-wrap">
+                <button type="button" class="btn btn-outline-dark catalog-search-toggle"
+                    data-search-toggle="#catalogTools" aria-label="Open search" aria-expanded="false">
+                    <i class="bi bi-search"></i>
+                </button>
+
+                {{-- <select id="shop-sort" class="form-select catalog-filter-select">
+                    <option selected value="">Filter By</option>
                     <option value="low">Price: Low to High</option>
                     <option value="high">Price: High to Low</option>
                     <option value="new">Newest</option>
-                </select>
+                </select> --}}
+                @include('public.partials.filterdropdown')
             </div>
-
         </div>
 
 
@@ -103,6 +105,22 @@
 
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.querySelector('[data-search-toggle]');
+        if (!toggleBtn) return;
+
+        const tools = document.querySelector(toggleBtn.getAttribute('data-search-toggle'));
+        if (!tools) return;
+
+        toggleBtn.addEventListener('click', function () {
+            const isOpen = tools.classList.toggle('is-open');
+            toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+    });
+</script>
+
 
 
 
